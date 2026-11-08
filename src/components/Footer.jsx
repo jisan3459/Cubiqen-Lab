@@ -30,13 +30,13 @@ export default function Footer({ onOpenAdmin, onOpenWizard }) {
             </p>
 
             <div style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.88rem' }}>
-              <a href="mailto:admin@cubiqenlab.com" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}>
+              <a href="mailto:cubiqenlab@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}>
                 <Mail size={15} color="#b8860b" />
-                <span>admin@cubiqenlab.com</span>
+                <span>cubiqenlab@gmail.com</span>
               </a>
-              <a href="https://wa.me/8801518991960" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}>
+              <a href="https://wa.me/8801924500300" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}>
                 <Phone size={15} color="#b8860b" />
-                <span>+880 1518 991960 (WhatsApp)</span>
+                <span>+880 1924 500300 (WhatsApp)</span>
               </a>
               <a href="https://www.facebook.com/cubiqenlab" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}>
                 <Facebook size={15} color="#b8860b" />
