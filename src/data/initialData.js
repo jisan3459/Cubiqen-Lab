@@ -133,7 +133,7 @@ export const initialTeam = [
     quote: '"Code is the vehicle; commercial velocity and flawless reliability are the destination."'
   },
   {
-    name: 'Hasin Al Jubaier',
+    name: 'Md. Hasin Al Jubaier Bhuiyan',
     tag: 'CO-FOUNDER & HEAD OF MOBILE',
     role: 'Head of Mobile Applications & Enterprise Automation',
     headline: 'Mobile systems engineer and automation specialist, turning manual operations into self-healing digital pipelines.',
@@ -141,8 +141,8 @@ export const initialTeam = [
       'Hasin leads cross-platform native engineering and workflow automation at Cubiqen Lab. Specializing in high-frequency mobile architectures and resilient webhook event brokers, he bridges the gap between frontend user delight and backend background execution.',
       'His engineering portfolio spans reactive FinTech wallets, biometric security layers, and enterprise CRM automation pipelines with zero downtime. He guarantees zero manual bottlenecks in your operational stack.'
     ],
-    avatar: '/jubayer.jpg',
-    initials: 'HJ',
+    avatar: '/formal_portfolio_portrait_8k.png',
+    initials: 'HB',
     focus: ['Flutter & React Native', 'n8n Cloud Automation', 'Biometrics & Security', 'Realtime WebSockets'],
     quote: '"Every repetitive hour spent by a human is an engineering failure waiting to be automated."'
   },

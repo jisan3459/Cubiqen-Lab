@@ -65,7 +65,7 @@ export default function Footer({ onOpenAdmin, onOpenWizard }) {
             <h4 className="footer-col-title">Founding Team</h4>
             <ul className="footer-links-list">
               <li><a href="#team" className="footer-link">Shahriar Rahman Shihab (Full Stack/AI)</a></li>
-              <li><a href="#team" className="footer-link">Hasin Al Jubaier (Mobile/Automation)</a></li>
+              <li><a href="#team" className="footer-link">Md. Hasin Al Jubaier Bhuiyan (Mobile/Automation)</a></li>
               <li><a href="#team" className="footer-link">Jannatul Jisan (Creative Strategy)</a></li>
               <li><a href="#estimator" className="footer-link">System Audit & Estimator</a></li>
               <li><a href="#reviews" className="footer-link">Client Reviews & Wall</a></li>

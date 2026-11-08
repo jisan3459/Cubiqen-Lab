@@ -68,7 +68,7 @@ export default function HeroSection({ onOpenWizard }) {
         {/* Quick Founder Trust Line */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', fontSize: '0.85rem', color: 'var(--text-dim)', width: '100%' }}>
           <CheckCircle2 size={16} color="#b8860b" />
-          <span>Founded by Shahriar Rahman Shihab, Hasin Al Jubaier & Jannatul Jisan</span>
+          <span>Founded by Shahriar Rahman Shihab, Md. Hasin Al Jubaier Bhuiyan & Jannatul Jisan</span>
         </div>
 
       </div>
