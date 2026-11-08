@@ -9,10 +9,11 @@ import AuditEstimator from './components/AuditEstimator';
 import ReviewsSection from './components/ReviewsSection';
 import ProjectWizard from './components/ProjectWizard';
 import Footer from './components/Footer';
+import AdminModal from './components/AdminModal';
 import ReviewModal from './components/ReviewModal';
 import CustomCursor from './components/CustomCursor';
 import { initialProjects, initialReviews } from './data/initialData';
-import { ArrowRight, Shield, Check } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Check, Plus, LogOut } from 'lucide-react';
 
 export default function App() {
   // Persistence for Projects
@@ -35,7 +36,17 @@ export default function App() {
     }
   });
 
+  // Ephemeral encrypted session storage (auto-clears on tab close)
+  const [isAdmin, setIsAdmin] = useState(() => {
+    try {
+      return sessionStorage.getItem('cubiqen_admin_auth') === 'verified';
+    } catch (e) {
+      return false;
+    }
+  });
+
   // Modal states
+  const [adminModalOpen, setAdminModalOpen] = useState(false);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [reviewTargetProject, setReviewTargetProject] = useState(null);
   const [wizardService, setWizardService] = useState(null);
@@ -43,13 +54,26 @@ export default function App() {
   // Toast feedback state
   const [toastMessage, setToastMessage] = useState('');
 
-  // Save to localStorage when state changes
+  // Global secret shortcut Ctrl+Shift+A (or Cmd+Shift+A) to open Admin
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        setAdminModalOpen(prev => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  // Save projects to localStorage
   useEffect(() => {
     try {
       localStorage.setItem('cubiqen_projects', JSON.stringify(projects));
     } catch (e) {}
   }, [projects]);
 
+  // Save reviews to localStorage
   useEffect(() => {
     try {
       localStorage.setItem('cubiqen_reviews', JSON.stringify(reviews));
@@ -61,6 +85,43 @@ export default function App() {
     setTimeout(() => {
       setToastMessage('');
     }, 3200);
+  };
+
+  // Secure Admin Handlers
+  const handleAdminLogin = () => {
+    setIsAdmin(true);
+    try {
+      sessionStorage.setItem('cubiqen_admin_auth', 'verified');
+    } catch (e) {}
+    showToast('Authenticated: Welcome back, Cubiqen Lab Founding Team.');
+  };
+
+  const handleAdminLogout = () => {
+    setIsAdmin(false);
+    setAdminModalOpen(false);
+    try {
+      sessionStorage.removeItem('cubiqen_admin_auth');
+    } catch (e) {}
+    showToast('Secure Session Closed.');
+  };
+
+  const handleAddProject = (newProj) => {
+    setProjects([newProj, ...projects]);
+    showToast(`Project "${newProj.title}" published live to showcase!`);
+  };
+
+  const handleDeleteProject = (projId) => {
+    if (window.confirm('Delete this project from your live showcase?')) {
+      setProjects(projects.filter(p => p.id !== projId));
+      showToast('Project removed from showcase.');
+    }
+  };
+
+  const handleResetData = () => {
+    if (window.confirm('Reset all showcase projects to factory default?')) {
+      setProjects(initialProjects);
+      showToast('Showcase restored to factory default.');
+    }
   };
 
   // Handler for Customer Review submission
@@ -113,6 +174,52 @@ export default function App() {
       </div>
       <div className="mesh-grid-overlay"></div>
 
+      {/* Admin Mode Active Banner */}
+      {isAdmin && (
+        <div className="admin-mode-banner">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <ShieldCheck size={16} color="#b8860b" />
+            <span style={{ fontWeight: 700, fontSize: '0.84rem' }}>
+              ADMIN CMS ACTIVE • Real-time Portfolio Editor
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+            <button 
+              type="button"
+              onClick={() => setAdminModalOpen(true)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.12)',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                color: '#ffffff',
+                borderRadius: '6px',
+                padding: '5px 12px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              + Add / Edit Projects
+            </button>
+            <button 
+              type="button"
+              onClick={handleAdminLogout}
+              style={{
+                background: '#ef4444',
+                border: 'none',
+                color: '#ffffff',
+                borderRadius: '6px',
+                padding: '5px 12px',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                cursor: 'pointer'
+              }}
+            >
+              Log Out
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Floating Pill Navigation */}
       <FloatingNav 
         onOpenWizard={() => scrollToWizard()}
@@ -133,6 +240,9 @@ export default function App() {
         
         <ProjectsShowcase 
           projects={projects}
+          isAdmin={isAdmin}
+          onOpenAddProject={() => setAdminModalOpen(true)}
+          onDeleteProject={handleDeleteProject}
           onOpenReviewModal={openReviewModalForProject}
         />
         
@@ -151,6 +261,20 @@ export default function App() {
       {/* Footer */}
       <Footer 
         onOpenWizard={() => scrollToWizard()}
+        onOpenAdmin={() => setAdminModalOpen(true)}
+      />
+
+      {/* Secure Cryptographic Admin CMS Modal */}
+      <AdminModal 
+        isOpen={adminModalOpen}
+        onClose={() => setAdminModalOpen(false)}
+        isAdmin={isAdmin}
+        onLogin={handleAdminLogin}
+        onLogout={handleAdminLogout}
+        projects={projects}
+        onAddProject={handleAddProject}
+        onDeleteProject={handleDeleteProject}
+        onResetData={handleResetData}
       />
 
       {/* Customer Review Modal */}

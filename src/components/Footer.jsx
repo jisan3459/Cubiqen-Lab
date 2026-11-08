@@ -1,7 +1,7 @@
 import React from 'react';
-import { Mail, Phone, ArrowUp, Facebook } from 'lucide-react';
+import { Mail, Phone, ArrowUp, Facebook, Lock } from 'lucide-react';
 
-export default function Footer({ onOpenWizard }) {
+export default function Footer({ onOpenWizard, onOpenAdmin }) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -81,6 +81,15 @@ export default function Footer({ onOpenWizard }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <button onClick={onOpenWizard} className="btn-primary-gold" style={{ fontSize: '0.84rem', justifyContent: 'center' }}>
                 <span>Start a Project</span>
+              </button>
+              <button 
+                onClick={onOpenAdmin} 
+                className="btn-secondary-ghost" 
+                style={{ fontSize: '0.82rem', justifyContent: 'center' }}
+                title="Founders Showcase CMS (Encrypted Access)"
+              >
+                <Lock size={13} />
+                <span>Founders CMS</span>
               </button>
             </div>
           </div>
