@@ -7,7 +7,7 @@ import {
 // Cryptographic one-way SHA-256 hash with salt
 // Plaintext password is NEVER stored in the code or bundle!
 const AUTH_SALT = 'cubiqen-lab-salt-v1';
-const VERIFIED_HASH = 'c98af55049f73c38a8579c54dad84cc6ad25b569d183716b00571c878821f76c';
+const VERIFIED_HASH = 'f9e7b4cbffe83b810d108e83fc816a9540a91a905097a629c0c5799be518efe4';
 const MAX_ATTEMPTS = 5;
 const LOCKOUT_SECONDS = 180;
 
@@ -464,3 +464,4 @@ export default function AdminModal({
     </div>
   );
 }
+
