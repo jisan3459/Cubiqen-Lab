@@ -15,6 +15,7 @@ export default function ProjectWizard({ initialSelectedService }) {
     details: ''
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const serviceOptions = [
     'Full Stack Web',
@@ -53,20 +54,46 @@ export default function ProjectWizard({ initialSelectedService }) {
     if (step > 1) setStep(step - 1);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSending(true);
 
-    // Fire Confetti!
     try {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#e6c687', '#f5e4c3', '#b8934b', '#38bdf8']
+      const payload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        company: formData.company.trim() || 'Not specified',
+        requested_services: selectedServices.join(', '),
+        timeline: timeline,
+        project_description: formData.details.trim(),
+        _subject: `New Project Inquiry from ${formData.name.trim()} - Cubiqen Lab`,
+        _template: 'table',
+        _captcha: 'false'
+      };
+
+      await fetch('https://formsubmit.co/ajax/cubiqenlab@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
       });
     } catch (err) {
-      // fallback
+      console.warn('Form dispatch fallback:', err);
+    } finally {
+      setIsSending(false);
+      setSubmitted(true);
+
+      // Fire celebratory confetti!
+      try {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#e6c687', '#f5e4c3', '#b8934b', '#38bdf8']
+        });
+      } catch (err) {}
     }
   };
 
@@ -271,13 +298,19 @@ export default function ProjectWizard({ initialSelectedService }) {
                   </div>
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2.5rem' }}>
-                    <button type="button" onClick={handleBack} className="btn-secondary-ghost">
+                    <button type="button" onClick={handleBack} className="btn-secondary-ghost" disabled={isSending}>
                       <ArrowLeft size={16} />
                       <span>Back</span>
                     </button>
-                    <button type="submit" className="btn-primary-gold">
-                      <span>Submit Project Intake</span>
-                      <Send size={16} />
+                    <button type="submit" className="btn-primary-gold" disabled={isSending}>
+                      {isSending ? (
+                        <span>Transmitting to Founders...</span>
+                      ) : (
+                        <>
+                          <span>Submit Project Intake</span>
+                          <Send size={16} />
+                        </>
+                      )}
                     </button>
                   </div>
                 </form>
