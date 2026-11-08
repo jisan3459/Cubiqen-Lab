@@ -9,11 +9,10 @@ import AuditEstimator from './components/AuditEstimator';
 import ReviewsSection from './components/ReviewsSection';
 import ProjectWizard from './components/ProjectWizard';
 import Footer from './components/Footer';
-import AdminModal from './components/AdminModal';
 import ReviewModal from './components/ReviewModal';
 import CustomCursor from './components/CustomCursor';
 import { initialProjects, initialReviews } from './data/initialData';
-import { ArrowRight, Shield, Check, Unlock } from 'lucide-react';
+import { ArrowRight, Shield, Check } from 'lucide-react';
 
 export default function App() {
   // Persistence for Projects
@@ -36,17 +35,7 @@ export default function App() {
     }
   });
 
-  // Admin authentication state
-  const [isAdmin, setIsAdmin] = useState(() => {
-    try {
-      return localStorage.getItem('cubiqen_admin_logged') === 'true';
-    } catch (e) {
-      return false;
-    }
-  });
-
   // Modal states
-  const [adminModalOpen, setAdminModalOpen] = useState(false);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
   const [reviewTargetProject, setReviewTargetProject] = useState(null);
   const [wizardService, setWizardService] = useState(null);
@@ -67,49 +56,11 @@ export default function App() {
     } catch (e) {}
   }, [reviews]);
 
-  useEffect(() => {
-    try {
-      localStorage.setItem('cubiqen_admin_logged', isAdmin ? 'true' : 'false');
-    } catch (e) {}
-  }, [isAdmin]);
-
   const showToast = (msg) => {
     setToastMessage(msg);
     setTimeout(() => {
       setToastMessage('');
     }, 3200);
-  };
-
-  // Handlers for Admin actions
-  const handleAdminLogin = () => {
-    setIsAdmin(true);
-    showToast('Admin Mode Enabled: You can now add and manage projects.');
-  };
-
-  const handleAdminLogout = () => {
-    setIsAdmin(false);
-    setAdminModalOpen(false);
-    showToast('Admin Session Ended.');
-  };
-
-  const handleAddProject = (newProj) => {
-    setProjects([newProj, ...projects]);
-    showToast(`Project "${newProj.title}" successfully added to showcase!`);
-  };
-
-  const handleDeleteProject = (projId) => {
-    if (window.confirm('Are you sure you want to delete this project from the showcase?')) {
-      setProjects(projects.filter(p => p.id !== projId));
-      showToast('Project removed from showcase.');
-    }
-  };
-
-  const handleResetData = () => {
-    if (window.confirm('Reset all projects and reviews to factory default showcase?')) {
-      setProjects(initialProjects);
-      setReviews(initialReviews);
-      showToast('Database reset to defaults.');
-    }
   };
 
   // Handler for Customer Review submission
@@ -162,67 +113,8 @@ export default function App() {
       </div>
       <div className="mesh-grid-overlay"></div>
 
-      {/* Admin Mode Active Indicator Banner */}
-      {isAdmin && (
-        <div className="admin-mode-banner">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <Unlock size={15} color="#b8860b" />
-            <span>ADMIN MODE ACTIVE • Real-time CMS Enabled</span>
-          </div>
-          <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-            <button 
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setAdminModalOpen(true);
-              }}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#ffffff',
-                borderRadius: '6px',
-                padding: '6px 14px',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }}
-            >
-              Open CMS
-            </button>
-            <button 
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAdminLogout();
-              }}
-              style={{
-                background: '#ef4444',
-                border: 'none',
-                color: '#ffffff',
-                borderRadius: '6px',
-                padding: '6px 14px',
-                fontSize: '0.78rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                boxShadow: '0 2px 8px rgba(239, 68, 68, 0.3)'
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = '#dc2626'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = '#ef4444'; }}
-            >
-              Log Out
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* Floating Pill Navigation */}
       <FloatingNav 
-        isAdmin={isAdmin}
-        onOpenAdmin={() => setAdminModalOpen(true)}
         onOpenWizard={() => scrollToWizard()}
       />
 
@@ -241,9 +133,6 @@ export default function App() {
         
         <ProjectsShowcase 
           projects={projects}
-          isAdmin={isAdmin}
-          onOpenAddProject={() => setAdminModalOpen(true)}
-          onDeleteProject={handleDeleteProject}
           onOpenReviewModal={openReviewModalForProject}
         />
         
@@ -261,21 +150,7 @@ export default function App() {
 
       {/* Footer */}
       <Footer 
-        onOpenAdmin={() => setAdminModalOpen(true)}
         onOpenWizard={() => scrollToWizard()}
-      />
-
-      {/* Admin Modal */}
-      <AdminModal 
-        isOpen={adminModalOpen}
-        onClose={() => setAdminModalOpen(false)}
-        isAdmin={isAdmin}
-        onLogin={handleAdminLogin}
-        onLogout={handleAdminLogout}
-        projects={projects}
-        onAddProject={handleAddProject}
-        onDeleteProject={handleDeleteProject}
-        onResetData={handleResetData}
       />
 
       {/* Customer Review Modal */}

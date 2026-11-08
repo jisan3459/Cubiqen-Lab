@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ShieldCheck, Menu, X, ArrowRight, Lock, Unlock, Sparkles } from 'lucide-react';
+import { ShieldCheck, Menu, X, ArrowRight, Sparkles } from 'lucide-react';
 
-export default function FloatingNav({ isAdmin, onOpenAdmin, onOpenWizard }) {
+export default function FloatingNav({ onOpenWizard }) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const scrollTo = (id) => {
@@ -36,16 +36,6 @@ export default function FloatingNav({ isAdmin, onOpenAdmin, onOpenWizard }) {
             <button onClick={() => scrollTo('estimator')} className="nav-pill-item">Audit & Estimator</button>
           </div>
 
-          {/* Admin Access Button */}
-          <button 
-            onClick={onOpenAdmin} 
-            className="nav-admin-btn"
-            title={isAdmin ? "Admin Mode Active (Click to manage)" : "Admin Portal Login"}
-            aria-label="Admin Portal"
-          >
-            {isAdmin ? <Unlock size={16} color="#e6c687" /> : <Lock size={16} />}
-          </button>
-
           {/* Primary CTA */}
           <button onClick={onOpenWizard} className="nav-cta-button">
             <span>Start a Project</span>
@@ -72,14 +62,6 @@ export default function FloatingNav({ isAdmin, onOpenAdmin, onOpenWizard }) {
           <button onClick={() => scrollTo('team')} className="mobile-nav-link">Founding Team</button>
           <button onClick={() => scrollTo('reviews')} className="mobile-nav-link">Customer Ratings & Reviews</button>
           <button onClick={() => scrollTo('estimator')} className="mobile-nav-link">Cost & Tech Estimator</button>
-          <button 
-            onClick={() => { setMobileOpen(false); onOpenAdmin(); }} 
-            className="mobile-nav-link"
-            style={{ color: '#e6c687', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-          >
-            <Lock size={16} />
-            <span>{isAdmin ? "Admin Dashboard (Active)" : "Admin Login Portal"}</span>
-          </button>
           <button 
             onClick={() => { setMobileOpen(false); onOpenWizard(); }} 
             className="btn-primary-gold"

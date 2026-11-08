@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { ExternalLink, Star, MessageSquare, Plus, Trash2, Edit3, ArrowUpRight } from 'lucide-react';
+import { ExternalLink, Star, MessageSquare, ArrowUpRight } from 'lucide-react';
 
 export default function ProjectsShowcase({ 
   projects, 
-  isAdmin, 
-  onOpenAddProject, 
-  onDeleteProject, 
   onOpenReviewModal 
 }) {
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -42,38 +39,12 @@ export default function ProjectsShowcase({
               {cat}
             </button>
           ))}
-
-          {/* Admin "Add Project" Button if Logged In */}
-          {isAdmin && (
-            <button
-              onClick={onOpenAddProject}
-              className="btn-primary-gold"
-              style={{ padding: '0.55rem 1.25rem', fontSize: '0.85rem', marginLeft: 'auto' }}
-            >
-              <Plus size={16} />
-              <span>Add New Project (Admin)</span>
-            </button>
-          )}
         </div>
 
         {/* Projects Grid */}
         <div className="projects-grid">
           {filteredProjects.map((project) => (
             <article key={project.id} className="project-card">
-              
-              {/* Admin Overlay Controls */}
-              {isAdmin && (
-                <div className="admin-card-controls">
-                  <button 
-                    onClick={() => onDeleteProject(project.id)}
-                    className="btn-admin-danger"
-                    title="Delete Project (Admin)"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              )}
-
               {/* Cover Image */}
               <div className="project-image-wrapper">
                 <img 
