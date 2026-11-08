@@ -134,6 +134,7 @@ export default function ReviewModal({ isOpen, onClose, targetProject, projects, 
                 <input 
                   type="text" 
                   required
+                  maxLength={80}
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
                   placeholder="e.g. Sarah Jenkins" 
@@ -145,6 +146,7 @@ export default function ReviewModal({ isOpen, onClose, targetProject, projects, 
                 <label className="form-label">Role / Company</label>
                 <input 
                   type="text" 
+                  maxLength={100}
                   value={role}
                   onChange={(e) => setRole(e.target.value)}
                   placeholder="e.g. Founder, FinTech Corp" 
@@ -158,9 +160,10 @@ export default function ReviewModal({ isOpen, onClose, targetProject, projects, 
               <textarea 
                 rows={3}
                 required
+                maxLength={600}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder="How was your experience working with Shihab, Hasin, and Jannatul? What results did you achieve?" 
+                placeholder="How was your experience working with Shihab, Jubaier, and Jannatul? What results did you achieve?" 
                 className="form-textarea"
               ></textarea>
             </div>

@@ -95,11 +95,11 @@ export default function ProjectWizard({ initialSelectedService }) {
                 Inquiry Received by Cubiqen Lab
               </h3>
               <p style={{ fontSize: '1.05rem', color: 'var(--text-muted)', maxWidth: '520px', margin: '0 auto 2rem', lineHeight: 1.6 }}>
-                Thank you, <strong>{formData.name || 'Partner'}</strong>. Shihab, Hasin, and Jannatul will review your project requirements and respond with a comprehensive execution proposal.
+                Thank you, <strong>{formData.name || 'Partner'}</strong>. Shahriar, Jubaier, and Jannatul will review your project requirements and respond with a comprehensive execution proposal.
               </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
                 <a 
-                  href="https://wa.me/8801518991960" 
+                  href="https://wa.me/8801924500300" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="btn-primary-gold"
@@ -224,6 +224,7 @@ export default function ProjectWizard({ initialSelectedService }) {
                       <input 
                         type="text" 
                         required
+                        maxLength={80}
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. Alex Morgan" 
@@ -235,6 +236,7 @@ export default function ProjectWizard({ initialSelectedService }) {
                       <input 
                         type="email" 
                         required
+                        maxLength={120}
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="alex@yourcompany.com" 
@@ -247,6 +249,7 @@ export default function ProjectWizard({ initialSelectedService }) {
                     <label className="form-label">Company / Project Name</label>
                     <input 
                       type="text" 
+                      maxLength={100}
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                       placeholder="e.g. Nexus AI or Stealth Startup" 
@@ -258,6 +261,8 @@ export default function ProjectWizard({ initialSelectedService }) {
                     <label className="form-label">Brief Project Summary & Goals</label>
                     <textarea 
                       rows={3}
+                      required
+                      maxLength={800}
                       value={formData.details}
                       onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                       placeholder="Share key requirements, existing tech stack, or challenges you're facing..." 
