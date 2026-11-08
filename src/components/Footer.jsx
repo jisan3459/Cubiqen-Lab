@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mail, Phone, MessageSquare, Shield, ArrowUp, Lock } from 'lucide-react';
+import { Mail, Phone, ArrowUp, Lock, Facebook } from 'lucide-react';
 
 export default function Footer({ onOpenAdmin, onOpenWizard }) {
   const scrollToTop = () => {
@@ -37,6 +37,10 @@ export default function Footer({ onOpenAdmin, onOpenWizard }) {
               <a href="https://wa.me/8801518991960" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}>
                 <Phone size={15} color="#b8860b" />
                 <span>+880 1518 991960 (WhatsApp)</span>
+              </a>
+              <a href="https://www.facebook.com/cubiqenlab" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)', textDecoration: 'none' }}>
+                <Facebook size={15} color="#b8860b" />
+                <span>facebook.com/cubiqenlab</span>
               </a>
             </div>
           </div>
